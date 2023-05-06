@@ -18,7 +18,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "push": "yarn build && npm publish",
     "lint": "prettier --plugin-search-dir . --check src/ && eslint src/**/*",
     "format": "prettier --plugin-search-dir . --write src/"
   }
