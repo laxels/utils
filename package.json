@@ -1,7 +1,6 @@
 {
   "name": "@laxels/utils",
-  "version": "1.0.2",
-  "type": "module",
+  "version": "1.0.4",
   "files": [
     "build"
   ],
@@ -18,7 +17,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "lint": "prettier --plugin-search-dir . --check src/ && eslint src/**/*",
-    "format": "prettier --plugin-search-dir . --write src/"
+    "lint": "prettier --plugin-search-dir . --check . && eslint src/",
+    "format": "prettier --plugin-search-dir . --write ."
   }
 }
