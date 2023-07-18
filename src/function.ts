@@ -50,3 +50,7 @@ export function pipe<In, T1, T2, T3, T4, T5, Out>(
     return pipe(...rest)(fn1(x) as T1);
   };
 }
+
+export function identity<T>(x: T): T {
+  return x;
+}
