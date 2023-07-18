@@ -41,6 +41,20 @@ export function reduce<T, U>(fn: (acc: U, x: T) => U, init: U): (xs: T[]) => U {
   return (xs: T[]) => xs.reduce(fn, init);
 }
 
+export function flat<T>(xs: Array<T | T[]>): T[] {
+  const result: T[] = [];
+
+  for (const x of xs) {
+    if (Array.isArray(x)) {
+      result.push(...x);
+    } else {
+      result.push(x);
+    }
+  }
+
+  return result;
+}
+
 export function unique<T, U = T>(
   iteratee: (x: T) => U = identity as (x: T) => U
 ): (xs: T[]) => T[] {
@@ -99,4 +113,21 @@ export function difference<T, U = T>(
     const ySet = new Set(ys.map(iteratee));
     return xs.filter((x) => !ySet.has(iteratee(x)));
   };
+}
+
+export function intersection<T, U = T>(
+  iteratee: (x: T) => U = identity as (x: T) => U
+): (xs: T[], ys: T[]) => T[] {
+  return (xs: T[], ys: T[]) => {
+    const ySet = new Set(ys.map(iteratee));
+    return xs.filter((x) => ySet.has(iteratee(x)));
+  };
+}
+
+export function join<T>(separator = `,`): (xs: T[]) => string {
+  return (xs: T[]) => xs.join(separator);
+}
+
+export function reverse<T>(xs: T[]): T[] {
+  return [...xs].reverse();
 }
