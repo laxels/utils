@@ -1,4 +1,4 @@
-import { identity } from './function';
+import { chain, identity } from './function';
 import { Maybe, isNotNullish } from './types';
 
 export function compact<T>(xs: Maybe<T>[]): T[] {
@@ -69,6 +69,10 @@ export function flat<T>(xs: Array<T | T[]>): T[] {
   }
 
   return result;
+}
+
+export function flatMap<T, U>(fn: (x: T) => U | U[]): (xs: T[]) => U[] {
+  return (xs: T[]) => chain(xs, map(fn), flat<U>);
 }
 
 export function unique<T, U = T>(

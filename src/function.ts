@@ -34,6 +34,13 @@ type Chain4<In, T1, T2, Out> = [] | [(arg: In) => Out] | [(arg: In) => T1, ...Ch
 type Chain5<In, T1, Out> = [] | [(arg: In) => Out] | [(arg: In) => T1, ...Chain6<T1, Out>];
 type Chain6<In, Out> = [] | [(arg: In) => Out];
 
+export function chain<In, T1, T2, T3, T4, T5, Out>(
+  x: In,
+  ...fns: Chain<In, T1, T2, T3, T4, T5, Out>
+): Out {
+  return pipe(...fns)(x);
+}
+
 export function pipe<In, T1, T2, T3, T4, T5, Out>(
   ...fns: Chain<In, T1, T2, T3, T4, T5, Out>
 ): (x: In) => Out {
