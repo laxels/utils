@@ -101,12 +101,30 @@ export function count<T, U = T>(
   return (xs: T[]) => {
     const countByItem = new Map<U, number>();
 
-    for (const x of xs.map(iteratee)) {
-      const count = countByItem.get(x) ?? 0;
-      countByItem.set(x, count + 1);
+    for (const item of xs.map(iteratee)) {
+      const count = countByItem.get(item) ?? 0;
+      countByItem.set(item, count + 1);
     }
 
     return countByItem;
+  };
+}
+
+export function group<T, U = T>(
+  iteratee: (x: T) => U = identity as (x: T) => U
+): (xs: T[]) => Map<U, T[]> {
+  return (xs: T[]) => {
+    const groupByItem = new Map<U, T[]>();
+
+    for (const x of xs) {
+      const item = iteratee(x);
+      if (!groupByItem.has(item)) {
+        groupByItem.set(item, []);
+      }
+      groupByItem.get(item)!.push(x);
+    }
+
+    return groupByItem;
   };
 }
 
