@@ -83,11 +83,15 @@ export function ary<Args extends unknown[], Return>(
 //   arity = fn.length
 // ): (...args: Part) => Part extends Args ? Return : Curried {
 //   return (...args: Part) => {
-//     if (args.length >= arity) {
-//       return fn(...(args as unknown as Args));
+//     if (enoughArgs(args)) {
+//       return fn(...args);
 //     }
 //     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 //     return curry(partial(fn, ...args)) as any;
+
+//     function enoughArgs(part: Part | Args): part is Args {
+//       return args.length >= arity;
+//     }
 //   };
 // }
 
