@@ -16,3 +16,7 @@ export function msToSeconds(ms: number): number {
 function roundToHundredths(x: number): number {
   return Math.round(x * 100) / 100;
 }
+
+export function now(): number {
+  return Date.now();
+}
