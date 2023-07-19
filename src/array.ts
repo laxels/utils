@@ -57,6 +57,10 @@ export function every<T>(fn: (x: T) => unknown): (xs: T[]) => boolean {
   return (xs: T[]) => xs.every(fn);
 }
 
+export function includes<T>(x: T): (xs: T[]) => boolean {
+  return (xs: T[]) => xs.includes(x);
+}
+
 export function flat<T>(xs: Array<T | T[]>): T[] {
   const result: T[] = [];
 
@@ -128,16 +132,21 @@ export function group<T, U = T>(
   };
 }
 
-export function sort<T, U = T>(iteratee: (x: T) => U = identity as (x: T) => U): (xs: T[]) => T[] {
+export type SortOrder = `asc` | `desc`;
+
+export function sort<T, U = T>(
+  iteratee: (x: T) => U = identity as (x: T) => U,
+  order: SortOrder = `asc`
+): (xs: T[]) => T[] {
   return (xs: T[]) =>
     [...xs].sort((a, b) => {
       const aVal = iteratee(a);
       const bVal = iteratee(b);
 
       if (aVal < bVal) {
-        return -1;
+        return order === `asc` ? -1 : 1;
       } else if (aVal > bVal) {
-        return 1;
+        return order === `asc` ? 1 : -1;
       } else {
         return 0;
       }
