@@ -18,6 +18,9 @@
 // - https://github.com/typed-typings/npm-ramda/blob/3cf3d0dc69e01b70ab3043d206782b8ef125cca1/src/pipe.d.ts
 // (Ramda's type definitions for an identical utility function)
 
+import { take } from './array';
+import { Fn } from './types';
+
 type Chain<In, T1, T2, T3, T4, T5, Out> =
   | []
   | [(arg: In) => Out]
@@ -60,4 +63,9 @@ export function pipe<In, T1, T2, T3, T4, T5, Out>(
 
 export function identity<T>(x: T): T {
   return x;
+}
+
+export function ary<T extends Fn>(fn: T, n = fn.length): (...args: Parameters<T>) => ReturnType<T> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return (...args: Parameters<T>) => fn(...take(n)(args));
 }
