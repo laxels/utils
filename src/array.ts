@@ -41,6 +41,14 @@ export function reduce<T, U>(fn: (acc: U, x: T) => U, init: U): (xs: T[]) => U {
   return (xs: T[]) => xs.reduce(fn, init);
 }
 
+export function some<T>(fn: (x: T) => unknown): (xs: T[]) => boolean {
+  return (xs: T[]) => xs.some(fn);
+}
+
+export function every<T>(fn: (x: T) => unknown): (xs: T[]) => boolean {
+  return (xs: T[]) => xs.every(fn);
+}
+
 export function flat<T>(xs: Array<T | T[]>): T[] {
   const result: T[] = [];
 
