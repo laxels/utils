@@ -124,10 +124,24 @@ export function intersection<T, U = T>(
   };
 }
 
+export function union<T, U = T>(
+  iteratee: (x: T) => U = identity as (x: T) => U
+): (xs: T[], ys: T[]) => T[] {
+  return (xs: T[], ys: T[]) => unique(iteratee)([...xs, ...ys]);
+}
+
 export function join<T>(separator = `,`): (xs: T[]) => string {
   return (xs: T[]) => xs.join(separator);
 }
 
 export function reverse<T>(xs: T[]): T[] {
   return [...xs].reverse();
+}
+
+export function zip<T, U>(xs: T[], ys: U[]): Array<[T, U]> {
+  return xs.map((x, i) => [x, ys[i]]);
+}
+
+export function unzip<T, U>(zipped: Array<[T, U]>): [T[], U[]] {
+  return [zipped.map(([x]) => x), zipped.map(([, y]) => y)];
 }
