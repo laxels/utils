@@ -72,6 +72,15 @@ export function ary<Args extends unknown[], Return>(
   return (...args: Args) => fn(...(take(n)(args) as Args));
 }
 
+export function partial<
+  Args extends unknown[],
+  Return,
+  Part extends AllLess<Args>,
+  Rest extends SkipFirst<Args, Part[`length`]>
+>(fn: (...args: Args) => Return, ...partialArgs: Part): (...args: Rest) => Return {
+  return (...args: Rest) => fn(...([...partialArgs, ...args] as Args));
+}
+
 // export function curry<
 //   Args extends unknown[],
 //   Return,
@@ -94,15 +103,6 @@ export function ary<Args extends unknown[], Return>(
 //     }
 //   };
 // }
-
-export function partial<
-  Args extends unknown[],
-  Return,
-  Part extends AllLess<Args>,
-  Rest extends SkipFirst<Args, Part[`length`]>
->(fn: (...args: Args) => Return, ...partialArgs: Part): (...args: Rest) => Return {
-  return (...args: Rest) => fn(...([...partialArgs, ...args] as Args));
-}
 
 // const cur = curry((x: number, y: number, z: number) => 1);
 // const lol = cur(1);
