@@ -19,7 +19,7 @@
 // (Ramda's type definitions for an identical utility function)
 
 import { take } from './array';
-import { Fn } from './types';
+import { AllLess, SkipFirst } from './types';
 
 type Chain<In, T1, T2, T3, T4, T5, Out> =
   | []
@@ -65,7 +65,40 @@ export function identity<T>(x: T): T {
   return x;
 }
 
-export function ary<T extends Fn>(fn: T, n = fn.length): (...args: Parameters<T>) => ReturnType<T> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return (...args: Parameters<T>) => fn(...take(n)(args));
+export function ary<Args extends unknown[], Return>(
+  fn: (...args: Args) => Return,
+  n = fn.length
+): (...args: Args) => Return {
+  return (...args: Args) => fn(...(take(n)(args) as Args));
 }
+
+// export function curry<
+//   Args extends unknown[],
+//   Return,
+//   Part extends AllLess<Args>,
+//   Rest extends SkipFirst<Args, Part[`length`]>,
+//   Curried extends (...args: Rest) => Return | Curried
+// >(
+//   fn: (...args: Args) => Return,
+//   arity = fn.length
+// ): (...args: Part) => Part extends Args ? Return : Curried {
+//   return (...args: Part) => {
+//     if (args.length >= arity) {
+//       return fn(...(args as unknown as Args));
+//     }
+//     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+//     return curry(partial(fn, ...args)) as any;
+//   };
+// }
+
+export function partial<
+  Args extends unknown[],
+  Return,
+  Part extends AllLess<Args>,
+  Rest extends SkipFirst<Args, Part[`length`]>
+>(fn: (...args: Args) => Return, ...partialArgs: Part): (...args: Rest) => Return {
+  return (...args: Rest) => fn(...([...partialArgs, ...args] as Args));
+}
+
+// const cur = curry((x: number, y: number, z: number) => 1);
+// const lol = cur(1);
