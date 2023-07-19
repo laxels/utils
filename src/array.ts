@@ -41,6 +41,10 @@ export function filter<T>(fn: (x: T) => unknown): (xs: T[]) => T[] {
   return (xs: T[]) => xs.filter(fn);
 }
 
+export function reject<T>(fn: (x: T) => unknown): (xs: T[]) => T[] {
+  return (xs: T[]) => xs.filter((x) => !fn(x));
+}
+
 export function find<T>(fn: (x: T) => unknown): (xs: T[]) => Maybe<T> {
   return (xs: T[]) => xs.find(fn);
 }
