@@ -14,6 +14,14 @@ export function divide(a: number, b: number): number {
   return a / b;
 }
 
+export function random(min: number, max: number): number {
+  return Math.random() * (max - min) + min;
+}
+
+export function randomInt(min: number, max: number): number {
+  return Math.floor(random(min, max));
+}
+
 const isPrimeCache = new Map<number, boolean>();
 export function isPrime(x: number): boolean {
   const cached = isPrimeCache.get(x)!;
