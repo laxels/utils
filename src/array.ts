@@ -1,4 +1,5 @@
 import { chain, identity } from './function';
+import { randomInt } from './math';
 import { Maybe, isNotNullish } from './types';
 
 export function compact<T>(xs: Maybe<T>[]): T[] {
@@ -63,6 +64,21 @@ export function every<T>(fn: (x: T) => unknown): (xs: T[]) => boolean {
 
 export function includes<T>(x: T): (xs: T[]) => boolean {
   return (xs: T[]) => xs.includes(x);
+}
+
+export function shuffle<T>(xs: T[]): T[] {
+  const result = [...xs];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = randomInt(0, i + 1);
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+
+  return result;
+}
+
+export function sample<T>(n = 1): (xs: T[]) => T[] {
+  return (xs: T[]) => chain(xs, shuffle, take<T>(n));
 }
 
 export function flat<T>(xs: Array<T | T[]>): T[] {
