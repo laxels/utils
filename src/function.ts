@@ -114,7 +114,7 @@ export function throttle<Args extends unknown[], Return>(
   let lastProvidedArgs: Args | undefined = undefined;
   let lastCallAt: number | null = null;
   let lastCallResult: Return | undefined = undefined;
-  let deferredCallID: number | null = null;
+  let deferredCallID: ReturnType<typeof setTimeout> | null = null;
   let throttled = false;
 
   return (...args: Args): Return | undefined => {
@@ -131,7 +131,7 @@ export function throttle<Args extends unknown[], Return>(
       return undefined;
     }
 
-    const timeoutID = window.setTimeout(() => {
+    const timeoutID = setTimeout(() => {
       if (deferredCallID === timeoutID && throttled) {
         call();
       }
