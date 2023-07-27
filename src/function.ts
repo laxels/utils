@@ -106,3 +106,48 @@ export function partial<
 
 // const cur = curry((x: number, y: number, z: number) => 1);
 // const lol = cur(1);
+
+export function throttle<Args extends unknown[], Return>(
+  fn: (...args: Args) => Return,
+  waitMS: number
+): (...args: Args) => Return | undefined {
+  let lastProvidedArgs: Args | undefined = undefined;
+  let lastCallAt: number | null = null;
+  let lastCallResult: Return | undefined = undefined;
+  let deferredCallID: number | null = null;
+  let throttled = false;
+
+  return (...args: Args): Return | undefined => {
+    lastProvidedArgs = args;
+    if (lastCallAt == null || Date.now() - lastCallAt >= waitMS) {
+      return call();
+    }
+    throttled = true;
+    return lastCallResult;
+  };
+
+  function call(): Return | undefined {
+    if (lastProvidedArgs == null) {
+      return undefined;
+    }
+
+    const timeoutID = window.setTimeout(() => {
+      if (deferredCallID === timeoutID && throttled) {
+        call();
+      }
+    }, waitMS);
+    deferredCallID = timeoutID;
+    throttled = false;
+
+    lastCallAt = Date.now();
+    lastCallResult = fn(...lastProvidedArgs);
+    return lastCallResult;
+  }
+}
+
+export function debounce<Args extends unknown[], Return>(
+  fn: (...args: Args) => Return,
+  waitMS: number
+): (...args: Args) => Return {
+  return fn;
+}
