@@ -25,6 +25,14 @@ module.exports = {
   },
   rules: {
     'no-constant-condition': ['error', { checkLoops: false }],
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      {
+        checksVoidReturn: {
+          arguments: false
+        }
+      }
+    ],
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off'
   }
