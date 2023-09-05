@@ -1,5 +1,6 @@
 export * from './array';
 export * from './browser';
+export * from './concurrency';
 export * from './function';
 export * from './log';
 export * from './math';
