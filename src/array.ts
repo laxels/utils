@@ -14,6 +14,14 @@ export function last<T>(xs: T[]): Maybe<T> {
   return xs[xs.length - 1];
 }
 
+export function initial<T>(xs: T[]): T[] {
+  return dropRight<T>()(xs);
+}
+
+export function tail<T>(xs: T[]): T[] {
+  return drop<T>()(xs);
+}
+
 export function take<T>(n = 1): (xs: T[]) => T[] {
   return (xs: T[]) => xs.slice(0, n);
 }
