@@ -4,6 +4,7 @@ export * from './concurrency';
 export * from './function';
 export * from './log';
 export * from './math';
+export * from './retry';
 export * from './time';
 export * from './types';
 export * from './wait';
